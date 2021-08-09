@@ -7,19 +7,34 @@ const ModalFilter = (props) => {
 
     const radioButton = [
         {
-            label: 'URUTKAN'
+            label : 'URUTKAN',
+            value : '',
+            object : '',
+            filteredBy : 1,
         },
         {
-            label: 'Nama A - Z'
+            label : 'Nama A - Z',
+            value : 'asc',
+            object : 'name',
+            filteredBy : 2,
         },
         {
-            label: 'Nama Z - A'
+            label : 'Nama Z - A',
+            value : 'desc',
+            object : 'name',
+            filteredBy : 3,
         },
         {
-            label: 'Tanggal Terbaru'
+            label : 'Tanggal Terbaru',
+            value : 'asc',
+            object : 'date',
+            filteredBy : 4,
         },
         {
-            label: 'Tanggal Terlama'
+            label : 'Tanggal Terlama',
+            value : 'desc',
+            object : 'date',
+            filteredBy : 5,
         }
     ]
 
@@ -33,7 +48,11 @@ const ModalFilter = (props) => {
                     selectedBtn={(e) => {
                         console.log('radioButton',e)
                         props.onSelect(e)
+                        props.onClose
                     }}
+                    duration={0}
+                    activeColor={Colors.border.orange}
+                    initial={props.filteredBy}
                 />
                 </View>
              </View>

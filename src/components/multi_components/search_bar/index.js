@@ -4,7 +4,7 @@ import { IconCus } from '../../../components'
 import { Colors } from '../../../utils'
 import { TextCus } from '../../single_components'
 
-const SearchBar = ({onSearch, onFiltered}) => {
+const SearchBar = ({onSearch, onFiltered, filteredType}) => {
     return (
         <View style={styles.Container} >
             <View style={{flexDirection:'row',alignItems:'center',flex:1}}>
@@ -12,7 +12,7 @@ const SearchBar = ({onSearch, onFiltered}) => {
                 <TextInput placeholder='Cari nama, bank, atau nominal' onChangeText={onSearch}/>
             </View>
             <TouchableOpacity style={{flexDirection:'row',alignItems:'center'}} onPress={onFiltered}>
-                <TextCus value='URUTKAN' color={Colors.text.orange}/>
+                <TextCus value={filteredType} color={Colors.text.orange} weight='bold'/>
                 <IconCus name='chevron-down' type='ionicon' color={Colors.border.orange}/>
             </TouchableOpacity>
         </View>

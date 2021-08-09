@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native'
 import { IconCus, TextCus, Gap } from '../../../components'
-import { Colors } from '../../../utils'
+import { BankNameFormatter, Colors, DateFormatter, MoneyFormatter } from '../../../utils'
 
 const ListTransactions = ({data, onSelect}) => {
     console.log('ListTransactions', data)
@@ -13,19 +13,19 @@ const ListTransactions = ({data, onSelect}) => {
                 <View style={{flexDirection:'row',alignItems:'center',paddingLeft:15,paddingRight:25}}>
                     <View style={{flex:1}}>  
                         <View style={{flexDirection:'row',alignItems:'center'}}>
-                            <TextCus value={item.sender_bank} />
+                            <TextCus value={BankNameFormatter(item.sender_bank)} weight='bold'/>
                             <View style={{marginHorizontal:5}}>
                                 <IconCus name='arrowright' type='antdesign' />
                             </View>
-                            <TextCus value={item.beneficiary_bank} />
+                            <TextCus value={BankNameFormatter(item.beneficiary_bank)} weight='bold' />
                         </View>
                         <TextCus value={item.beneficiary_name.toUpperCase()} />
                         <View style={{flexDirection:'row',alignItems:'center'}}>
-                            <TextCus value={item.amount} />
+                            <TextCus value={MoneyFormatter(item.amount)} />
                             <View style={{marginHorizontal:5}}>
-                                <IconCus name='primitive-dot' type='octicon' />
+                                <IconCus name='primitive-dot' type='octicon' size={14}/>
                             </View>
-                            <TextCus value={item.completed_at} />
+                            <TextCus value={DateFormatter(item.completed_at)} />
                         </View>
 
                     </View>
@@ -40,6 +40,7 @@ const ListTransactions = ({data, onSelect}) => {
                             <TextCus 
                                 value={item.status=='SUCCESS'?'Berhasil':'Pengecekan'}
                                 color={item.status=='SUCCESS'?'white':'black'}
+                                weight='bold'
                             />
                         </View>
                     </View>
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
     StatusContainer : {
         borderRadius : 5,
         borderWidth : 1,
-        paddingHorizontal : 5, 
+        paddingHorizontal : 8, 
         paddingVertical : 8,
     },
     FlagList : {

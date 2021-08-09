@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { TextCus, IconCus, Gap} from '../../components'
-import { Colors, DefaultStyles } from '../../utils'
+import { BankNameFormatter, Colors, DateFormatter, DefaultStyles } from '../../utils'
 
 const TransactionDetail = ({navigation,route}) => {
 
@@ -35,11 +35,11 @@ const TransactionDetail = ({navigation,route}) => {
                 </View>
                 <View>
                     <View style={{flexDirection:'row',alignItems:'center',marginVertical:10}}>
-                        <TextCus value={transDetail.bankSender} weight='bold'/>
+                        <TextCus value={BankNameFormatter(transDetail.bankSender)} weight='bold' size={16} />
                         <View style={{marginHorizontal:5}}>
                             <IconCus name='arrowright' type='antdesign' />
                         </View>
-                        <TextCus value={transDetail.bankDestination} weight='bold'/>
+                        <TextCus value={BankNameFormatter(transDetail.bankDestination)} weight='bold' size={16}/>
                     </View>
                    
                     <View style={{flexDirection:'row',alignItems:'center',marginBottom:15}}>
@@ -65,7 +65,7 @@ const TransactionDetail = ({navigation,route}) => {
                     <View style={{flexDirection:'row',alignItems:'center',marginBottom:15}}>
                         <View style={{flex:1}}>
                             <TextCus value='WAKTU DIBUAT' weight='bold'/>
-                            <TextCus value={transDetail.createdTime}/>
+                            <TextCus value={DateFormatter(transDetail.createdTime)}/>
                         </View>
                        
                     </View>

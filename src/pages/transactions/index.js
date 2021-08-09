@@ -17,6 +17,10 @@ const Transactions = ({navigation}) => {
     const [filtered, setFiltered] = useState({})
     const [searchStatus, setSearchStatus] = useState(false)
     const [modalStatus, setModalStatus] = useState(false)
+    const [filteredBy, setfilteredBy] = useState({
+        name : 'URUTKAN',
+        id : 1
+    })
 
     useEffect(()=>{
         if(isFocused){
@@ -44,12 +48,6 @@ const Transactions = ({navigation}) => {
         if(text){
             setSearchStatus(true)
             const temp = text.toLowerCase()
-            // const tempList = transactions.filter(item => {
-            //     console.log('onSearch_2', item)
-                // if(item.beneficiary_name.toLowerCase().match(temp))
-                //     return item
-            // })
-            
             const arrayConvert = Object.entries(transactions)
             console.log('onSearch_1', arrayConvert )
 
@@ -74,14 +72,42 @@ const Transactions = ({navigation}) => {
 
     const onFiltered = (type) => {
         console.log('onFiltered',type)
-        
-        setModalStatus(true)
+        // setModalStatus(false)
+        setfilteredBy(prev=>({...prev, name:type.label, id:type.filteredBy}))
+        if(type.filteredBy!=1){
+            const arrayConvert = Object.entries(transactions)
+            const tempList = arrayConvert.sort((a,b)=>{
+                console.log('onFiltered_2',a[1].beneficiary_name)
+                const object = type.object == 'name' ? 'beneficiary_name' : 'created_at'
+                const object1 = a[1][object].toString().toLowerCase()
+                const object2 = b[1][object].toString().toLowerCase()
+                if(type.value == 'asc'){
+                    if(object1 < object2) return -1
+                    if(object1 > object2) return 1
+                }else{
+                    if(object1 < object2) return 1
+                    if(object1 > object2) return -1
+                }
+                return 0
+            })
+            .map((item, index)=>{return item})
+            console.log('onFiltered_1',tempList)
+            setFiltered(Object.fromEntries(tempList))
+        }
+        else{
+            setFiltered(transactions)
+        }
     }
 
     return (
         <View style={DefaultStyles.PageContainer}>
-            <ModalFilter isOpen={modalStatus} onClose={()=>setModalStatus(false)} onSelect={onFiltered}/>
-            <SearchBar onSearch={value=>onSearch(value)} onFiltered={onFiltered}/>
+            <ModalFilter 
+                isOpen={modalStatus} 
+                onClose={()=>setModalStatus(false)} 
+                onSelect={onFiltered}
+                filteredBy={filteredBy.id}
+            />
+            <SearchBar onSearch={value=>onSearch(value)} onFiltered={()=>setModalStatus(true)} filteredType={filteredBy.name}/>
             <Gap height={10}/>
             <ListTransactions data={filtered} onSelect={onSelect}/>
         </View>
